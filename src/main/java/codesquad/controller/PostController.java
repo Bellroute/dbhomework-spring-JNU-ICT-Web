@@ -16,22 +16,22 @@ public class PostController {
     @Autowired
     private PostService questionService;
 
-    @PostMapping("/questions")
-    public String questions(Post question, HttpSession session) {
+    @PostMapping("/posts")
+    public String posts(Post question, HttpSession session) {
         questionService.savePost(question, session);
 
-        return "redirect:/";
+        return "redirect:/posts";
     }
 
-    @GetMapping("/questions")
+    @GetMapping("/posts")
     public String list(Model model) {
-        model.addAttribute("questions", questionService.findPosts());
+        model.addAttribute("posts", questionService.findPosts());
 
         return "/posts/list";
     }
 
-    @GetMapping("questions/form")
-    public String getQuestionForm(HttpSession session, Model model) {
+    @GetMapping("posts/form")
+    public String getPostForm(HttpSession session, Model model) {
         if (!HttpSessionUtils.isSessionedUser(session)) {
             return "redirect:/users/loginForm";
         }
@@ -40,44 +40,44 @@ public class PostController {
         return "/posts/form";
     }
 
-    @GetMapping("/questions/{questionId}")
-    public String accessQuestion(@PathVariable Long questionId, Model model) {
-        model.addAttribute("question", questionService.findPostById(questionId));
+    @GetMapping("/posts/{postId}")
+    public String accessPost(@PathVariable Long postId, Model model) {
+        model.addAttribute("post", questionService.findPostById(postId));
 
-        return "/posts/show";
+        return "/posts";
     }
 
-    @GetMapping("/questions/{questionId}/form")
-    public String modifyQuestion(@PathVariable Long questionId, Model model, HttpSession session) {
+    @GetMapping("/posts/{postId}/form")
+    public String modifyPost(@PathVariable Long postId, Model model, HttpSession session) {
         if (!HttpSessionUtils.isSessionedUser(session)) {
             return "redirect:/users/loginForm";
         }
 
-        if (!questionService.isSameWriter(questionId, session)) {
-            return "redirect:/questions/{questionId}";
+        if (!questionService.isSameWriter(postId, session)) {
+            return "redirect:/posts/{postId}";
         }
-        model.addAttribute("question", questionService.findPostById(questionId));
+        model.addAttribute("post", questionService.findPostById(postId));
 
         return "/posts/updateForm";
     }
 
-    @PutMapping("/questions/{questionId}")
-    public String updateQuestion(@PathVariable Long questionId, Post updatedQuestion) {
-        questionService.updatePost(questionService.findPostById(questionId), updatedQuestion);
+    @PutMapping("/questions/{postId}")
+    public String updatePost(@PathVariable Long postId, Post updatedQuestion) {
+        questionService.updatePost(questionService.findPostById(postId), updatedQuestion);
 
-        return "redirect:/questions/{questionId}";
+        return "redirect:/posts/{postId}";
     }
 
-    @DeleteMapping("/questions/{questionId}")
-    public String deleteQuestion(@PathVariable Long questionId, HttpSession session) {
+    @DeleteMapping("/posts/{postId}")
+    public String deletePost(@PathVariable Long postId, HttpSession session) {
         if (!HttpSessionUtils.isSessionedUser(session)) {
             return "redirect:/users/loginForm";
         }
 
-        if (!questionService.isSameWriter(questionId, session)) {
-            return "redirect:/questions/{questionId}";
+        if (!questionService.isSameWriter(postId, session)) {
+            return "redirect:/posts/{postId}";
         }
-        questionService.deletePost(questionId);
+        questionService.deletePost(postId);
 
         return "redirect:/";
     }

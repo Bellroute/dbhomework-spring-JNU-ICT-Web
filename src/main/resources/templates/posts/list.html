@@ -6,13 +6,13 @@
     <div class="col-md-12 col-sm-12 col-lg-10 col-lg-offset-1">
         <div class="panel panel-default qna-list">
             <ul class="list">
-                {{#questions}}
+                {{#posts}}
                 <li>
                     <div class="wrap">
                         <div class="main">
                             {{^deleted}}
                             <strong class="subject">
-                                <a href="/questions/{{id}}">{{title}}</a>
+                                <a href="/posts/{{id}}">{{title}}</a>
                             </strong>
                             <div class="auth-info">
                                 <i class="icon-add-comment"></i>
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                 </li>
-                {{/questions}}
+                {{/posts}}
             </ul>
             <div class="row">
                 <div class="col-md-3"></div>
@@ -43,7 +43,7 @@
                     </ul>
                 </div>
                 <div class="col-md-3 qna-write">
-                    <a href="/questions/form" class="btn btn-primary pull-right" role="button">글쓰기</a>
+                    <a href="/posts/form" class="btn btn-primary pull-right" role="button">글쓰기</a>
                 </div>
             </div>
         </div>

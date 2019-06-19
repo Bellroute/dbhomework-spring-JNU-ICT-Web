@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/questions/{questionId}/answers")
+@RequestMapping("/api/posts/{postId}/comments")
 public class ApiCommentController {
     private static final Logger log = LoggerFactory.getLogger(ApiCommentController.class);
 
@@ -23,15 +23,15 @@ public class ApiCommentController {
     private CommentService answerService;
 
     @PostMapping("")
-    public Comment uploadAnswer(@PathVariable Long questionId, @RequestBody CommentDTO commentDTO, HttpSession session) {
+    public Comment uploadComment(@PathVariable Long postId, @RequestBody CommentDTO commentDTO, HttpSession session) {
         if (!HttpSessionUtils.isSessionedUser(session)) {
             throw new UnAuthorizedException();
         }
-        return answerService.saveAnswer(session, questionId, commentDTO);
+        return answerService.saveAnswer(session, postId, commentDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Long>> delete(@PathVariable Long questionId, @PathVariable Long id, HttpSession session) {
+    public ResponseEntity<Map<String, Long>> delete(@PathVariable Long id, HttpSession session) {
         if (!HttpSessionUtils.isSessionedUser(session)) {
             throw new UnAuthorizedException();
         }
