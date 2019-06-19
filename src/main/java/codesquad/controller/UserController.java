@@ -21,7 +21,7 @@ public class UserController {
     public String create(User user) {
         userService.saveUser(user);
 
-        return "redirect:/users";
+        return "redirect:/users/loginForm";
     }
 
     @GetMapping("")
