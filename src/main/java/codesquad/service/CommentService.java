@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 
 @Service
@@ -27,30 +26,24 @@ public class CommentService {
     @Autowired
     private PostRepository postRepository;
 
-    public Comment saveComment(HttpSession session, Long questionId, CommentDTO commentDTO) {
-        Comment comment = new Comment(HttpSessionUtils.getSessionedUser(session), findPost(questionId), commentDTO.getContents());
-        comment.setTime(TimeUtils.getCurrentTime());
+    public void saveComment(HttpSession session, Long questionId, String contents) {
+        Comment answer = new Comment(HttpSessionUtils.getSessionedUser(session), findQuestion(questionId), contents);
+        answer.setTime(TimeUtils.getCurrentTime());
 
-        Post post = findPost(questionId);
-        post.addComment(comment);
-        postRepository.save(post);
-
-        return commentRepository.save(comment);
+        commentRepository.save(answer);
     }
 
-    public ResponseEntity<Map<String, Long>> deleteAnswer(HttpSession session, Long id) {
+    public boolean isSameWriter(Long id, HttpSession session) {
+        return findQuestion(id).isSameWriter(HttpSessionUtils.getSessionedUser(session));
+    }
+
+    public void deleteAnswer(Long id, HttpSession session) {
         Comment comment = commentRepository.findById(id).orElseThrow(CommentNotFoundException::new);
         comment.delete(HttpSessionUtils.getSessionedUser(session));
-
-        if (comment.isDeleted()) {
-            commentRepository.save(comment);
-            return Result.ok(id);
-        }
-
-        return Result.fail(id);
+        commentRepository.save(comment);
     }
 
-    private Post findPost(Long id) {
+    private Post findQuestion(Long id) {
         return postRepository.findById(id).orElseThrow(PostNotFoundException::new);
     }
 }

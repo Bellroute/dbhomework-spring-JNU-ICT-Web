@@ -28,10 +28,10 @@
                     <div class="article-util">
                         <ul class="article-util-list">
                             <li>
-                                <a class="link-modify-article" href="/posts/{{questionId}}/form">수정</a>
+                                <a class="link-modify-article" href="/posts/{{postId}}/form">수정</a>
                             </li>
                             <li>
-                                <form class="form-delete" action="/posts/{{questionId}}" method="POST">
+                                <form class="form-delete" action="/posts/{{postId}}" method="POST">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <button class="link-delete-article" type="submit">삭제</button>
                                 </form>
@@ -45,9 +45,10 @@
                 <div class="qna-comment">
                     <div class="qna-comment-slipp">
                         <div class="qna-comment-slipp-articles">
+
                             {{#comments}}
                             {{^deleted}}
-                            <article class="article-answer" data-id="{{id}}">
+                            <article class="article" id="answer-1405">
                                 <div class="article-header">
                                     <div class="article-header-thumb">
                                         <img src="https://graph.facebook.com/v2.3/1324855987/picture"
@@ -55,7 +56,7 @@
                                     </div>
                                     <div class="article-header-text">
                                         <a href="/users/{{writer.id}}" class="article-author-name">{{writer.name}}</a>
-                                        <a href="#answer-1434" class="article-header-time" title="퍼머링크">
+                                        <a class="article-header-time" title="퍼머링크">
                                             {{time}}
                                         </a>
                                     </div>
@@ -67,10 +68,10 @@
                                     <ul class="article-util-list">
                                         <li>
                                             <a class="link-modify-article"
-                                               href="/posts/413/answers/1405/form">수정</a>
+                                               href="/questions/413/answers/1405/form">수정</a>
                                         </li>
                                         <li>
-                                            <form class="delete-answer-form" action="/posts/{{posts.id}}/comments/{{id}}"
+                                            <form class="delete-answer-form" action="/posts/{{post.id}}/comments/{{id}}"
                                                   method="POST">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <button type="submit" class="delete-answer-button">삭제</button>
@@ -81,7 +82,7 @@
                             </article>
                             {{/deleted}}
                             {{/comments}}
-                            <form class="submit-write" method="post" action="/posts/{{id}}/comments">
+                            <form class="submit-write" method="post" action="/posts/{{postId}}/comments">
                                 <div class="form-group" style="padding:14px;">
                                     <textarea class="form-control" placeholder="Update your status" name="contents"></textarea>
                                 </div>
