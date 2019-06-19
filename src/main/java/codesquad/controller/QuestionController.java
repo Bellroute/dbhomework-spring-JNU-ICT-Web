@@ -23,7 +23,7 @@ public class QuestionController {
         return "redirect:/";
     }
 
-    @GetMapping("")
+    @GetMapping("/questions")
     public String list(Model model) {
         model.addAttribute("questions", questionService.findQuestions());
 
