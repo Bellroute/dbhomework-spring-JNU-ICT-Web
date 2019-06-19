@@ -108,5 +108,5 @@ function appendAnswer({id, contents, writer, time, url}) {
             </div>
         </article> `
 
-    document.querySelector(".qna-comment-slipp-articles").insertAdjacentHTML("afterbegin", html);
+    document.querySelector(".posts-comment-slipp-articles").insertAdjacentHTML("afterbegin", html);
 }

@@ -1,9 +1,9 @@
 package codesquad.controller;
 
-import codesquad.dto.AnswerDTO;
+import codesquad.dto.CommentDTO;
 import codesquad.exception.UnAuthorizedException;
-import codesquad.model.Answer;
-import codesquad.service.AnswerService;
+import codesquad.model.Comment;
+import codesquad.service.CommentService;
 import codesquad.utils.HttpSessionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,18 +16,18 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/questions/{questionId}/answers")
-public class ApiAnswerController {
-    private static final Logger log = LoggerFactory.getLogger(ApiAnswerController.class);
+public class ApiCommentController {
+    private static final Logger log = LoggerFactory.getLogger(ApiCommentController.class);
 
     @Autowired
-    private AnswerService answerService;
+    private CommentService answerService;
 
     @PostMapping("")
-    public Answer uploadAnswer(@PathVariable Long questionId, @RequestBody AnswerDTO answerDTO, HttpSession session) {
+    public Comment uploadAnswer(@PathVariable Long questionId, @RequestBody CommentDTO commentDTO, HttpSession session) {
         if (!HttpSessionUtils.isSessionedUser(session)) {
             throw new UnAuthorizedException();
         }
-        return answerService.saveAnswer(session, questionId, answerDTO);
+        return answerService.saveAnswer(session, questionId, commentDTO);
     }
 
     @DeleteMapping("/{id}")

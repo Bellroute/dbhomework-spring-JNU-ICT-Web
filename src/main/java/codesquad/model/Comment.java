@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Answer {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,10 +21,10 @@ public class Answer {
     @ManyToOne
     @JsonBackReference
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_answer_parent_id"))
-    private Question question;
+    private Post post;
 
     @ManyToOne
-    @JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_answer_writer"))
+    @JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_comment_writer"))
     private User writer;
 
     @Column(nullable = false)
@@ -38,11 +38,11 @@ public class Answer {
 
     private String url;
 
-    public Answer(User writer, Question question, String contents) {
+    public Comment(User writer, Post post, String contents) {
         this.writer = writer;
-        this.question = question;
+        this.post = post;
         this.contents = contents;
-        this.url = "/api/questions/" + question.getId() + "/answers";
+        this.url = "/api/questions/" + post.getId() + "/answers";
         this.deleted = false;
     }
 

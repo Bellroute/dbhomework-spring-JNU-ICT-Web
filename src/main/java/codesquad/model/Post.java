@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Question {
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,23 +33,23 @@ public class Question {
     @JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_question_writer"))
     private User writer;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "post")
     @JsonManagedReference
-    private List<Answer> answers;
+    private List<Comment> comments;
 
-    public Question() {
+    public Post() {
         this.deleted = false;
-        this.answers = new ArrayList<>();
+        this.comments = new ArrayList<>();
     }
 
-    public void addAnswer(Answer answer) {
-        answer.setQuestion(this);
-        this.answers.add(answer);
+    public void addComment(Comment comment) {
+        comment.setPost(this);
+        this.comments.add(comment);
     }
 
-    public void update(Question updatedQuestion) {
-        this.title = updatedQuestion.getTitle();
-        this.contents = updatedQuestion.getContents();
+    public void update(Post updatedPost) {
+        this.title = updatedPost.getTitle();
+        this.contents = updatedPost.getContents();
     }
 
     public boolean isSameWriter(User sessionedUser) {
@@ -61,6 +61,6 @@ public class Question {
     }
 
     public boolean isAbleDelete() {
-        return answers.stream().allMatch(answer -> answer.isSameWriter(this.writer));
+        return comments.stream().allMatch(comment -> comment.isSameWriter(this.writer));
     }
 }
