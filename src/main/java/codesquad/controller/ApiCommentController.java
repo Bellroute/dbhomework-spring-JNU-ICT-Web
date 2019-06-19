@@ -20,14 +20,14 @@ public class ApiCommentController {
     private static final Logger log = LoggerFactory.getLogger(ApiCommentController.class);
 
     @Autowired
-    private CommentService answerService;
+    private CommentService commentService;
 
     @PostMapping("")
     public Comment uploadComment(@PathVariable Long postId, @RequestBody CommentDTO commentDTO, HttpSession session) {
         if (!HttpSessionUtils.isSessionedUser(session)) {
             throw new UnAuthorizedException();
         }
-        return answerService.saveAnswer(session, postId, commentDTO);
+        return commentService.saveComment(session, postId, commentDTO);
     }
 
     @DeleteMapping("/{id}")
@@ -38,6 +38,6 @@ public class ApiCommentController {
 
         log.info("id -> ", id);
 
-        return answerService.deleteAnswer(session, id);
+        return commentService.deleteAnswer(session, id);
     }
 }

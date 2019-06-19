@@ -27,7 +27,7 @@ public class CommentService {
     @Autowired
     private PostRepository postRepository;
 
-    public Comment saveAnswer(HttpSession session, Long questionId, CommentDTO commentDTO) {
+    public Comment saveComment(HttpSession session, Long questionId, CommentDTO commentDTO) {
         Comment comment = new Comment(HttpSessionUtils.getSessionedUser(session), findPost(questionId), commentDTO.getContents());
         comment.setTime(TimeUtils.getCurrentTime());
 

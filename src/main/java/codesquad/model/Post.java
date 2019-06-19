@@ -13,6 +13,11 @@ import java.util.List;
 @Setter
 @Entity
 public class Post {
+    private final static int CATEGORY_NOTICE = 1;
+    private final static int CATEGORY_ACTIVITES_INFO = 2;
+    private final static int CATEGORY_JOB_INFO = 3;
+    private final static int CATEGORY_POSTS = 4;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,6 +41,9 @@ public class Post {
     @OneToMany(mappedBy = "post")
     @JsonManagedReference
     private List<Comment> comments;
+
+    @Column(nullable = false)
+    private int category;
 
     public Post() {
         this.deleted = false;
@@ -62,5 +70,18 @@ public class Post {
 
     public boolean isAbleDelete() {
         return comments.stream().allMatch(comment -> comment.isSameWriter(this.writer));
+    }
+
+    public boolean isNotice() {
+        return this.category == CATEGORY_NOTICE;
+    }
+
+    public boolean isActivitesInfoList() {
+        return this.category == CATEGORY_ACTIVITES_INFO;
+    }
+
+
+    public boolean isjobInfoList() {
+        return this.category == CATEGORY_JOB_INFO;
     }
 }
